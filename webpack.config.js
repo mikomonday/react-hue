@@ -1,12 +1,8 @@
-path = require('path');
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
-const APP_DIR = path.resolve(__dirname, './src');
-const BUILD_DIR = path.resolve(__dirname, './dist');
-
-// npm run build --env=development
 function webpackConfig(env) {
   switch (env) {
     case 'production':
@@ -14,44 +10,38 @@ function webpackConfig(env) {
 
     case 'development':
       return {
+        mode: 'development',
         devtool: 'inline-source-map',
         plugins: [
-          new webpack.HotModuleReplacementPlugin(),
           new CleanWebpackPlugin(['dist']),
           new HtmlWebpackPlugin({
-            template: './src/index.html',
-            filename: './dist/index.html',
-          })
+            template: path.join(__dirname, 'src', 'index.html'),
+          }),
+          new webpack.HotModuleReplacementPlugin(),
+          new webpack.NoEmitOnErrorsPlugin(),
         ],
         entry: [
-          './src/index.js',
           'webpack-hot-middleware/client',
+          path.join(__dirname, 'src', 'index.jsx'),
         ],
         output: {
           filename: 'bundle.js',
-          path: __dirname + './dist',
+          path: path.join(__dirname, 'dist'),
           publicPath: '/',
         },
         resolve: {
-          extensions: ['*', '.js', '.jsx']
+          extensions: ['*', '.js', '.jsx'],
         },
         module: {
           rules: [{
-            test: /\.html$/,
-            use: [{
-              loader: 'html-loader',
-              options: { minimize: true }
-            }]
-          }, {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
-            use: ['babel-loader']
-          }]
-        }
+            use: ['babel-loader'],
+          }],
+        },
       };
     default:
-      console.log('"env" parameter required. please specify "production" or "development"');
-      break;
+      return null;
   }
 }
 
