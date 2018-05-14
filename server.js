@@ -7,17 +7,13 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
 const port = process.env.PORT || 3000;
-const argv = require('minimist')(process.argv.slice(2), {
-  alias: {
-    d: 'development',
-  },
-});
+const env = process.env.NODE_ENV || 'production';
 
 // Express
 const app = express();
 
 // Webpack Dev Server Checks
-if (argv.development) {
+if (env === 'development') {
   console.log('Starting in development mode...');
   const devConfig = webpackConfig('development');
   const compiler = webpack(devConfig);
