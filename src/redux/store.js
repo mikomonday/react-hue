@@ -2,10 +2,14 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 
 // Reducers
-import * as reducers from './reducers';
+import session from './session/reducers';
+
+const rootReducer = combineReducers({
+  session,
+});
 
 const configureStore = (initialState = {}) => createStore(
-  combineReducers(reducers),
+  rootReducer,
   initialState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(),
