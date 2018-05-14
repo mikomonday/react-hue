@@ -37,6 +37,13 @@ function webpackConfig(env) {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
             use: ['babel-loader'],
+          }, {
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            loader: 'eslint-loader',
+            options: {
+              emitWarning: true,
+            },
           }],
         },
       };
