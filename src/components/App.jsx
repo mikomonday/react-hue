@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-extraneous-dependencies, import/extensions */
 import React from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
@@ -7,9 +7,11 @@ import {
   Route,
 } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import 'typeface-rubik';
 
 // Redux
-import { sessionSelectors } from '../redux/session';
+import { sessionSelectors, sessionConstants } from '../redux/session';
 import propTypes from '../redux/propTypes';
 
 // Components
@@ -19,16 +21,30 @@ import Home from './Home/Home';
 // Styles
 import './app.scss';
 
+// Themes
+import defaultTheme from '../utils/themes/defaultTheme';
+
 class App extends React.Component {
   state = {};
+
+  createTheme = (theme) => {
+    switch (theme) {
+      case sessionConstants.themes.DEFAULT:
+        return createMuiTheme(defaultTheme);
+      default:
+        return createMuiTheme(defaultTheme);
+    }
+  }
+
   render() {
     return (
       <Router>
-        <MuiThemeProvider theme={createMuiTheme(this.props.theme)}>
-          <main id="react-hue">
+        <MuiThemeProvider theme={this.createTheme(this.props.theme)}>
+          <React.Fragment>
+            <CssBaseline />
             <Navigation />
             <Route exact path="/" component={Home} />
-          </main>
+          </React.Fragment>
         </MuiThemeProvider>
       </Router>
     );

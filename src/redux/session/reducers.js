@@ -1,18 +1,13 @@
 import types from './types';
+import constants from './constants';
 
-const sessionReducer = (state = {
-  testMsg: '',
-  theme: {},
+const lightsReducer = (state = {
+  lights: [],
 }, action) => {
   switch (action.type) {
-    case types.TEST_MSG:
-      return {
-        ...state,
-        testMsg: action.payload.msg,
-      };
     default:
       return state;
   }
 };
 
-export default sessionReducer;
+export default lightsReducer;
