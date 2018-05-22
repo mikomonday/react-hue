@@ -42,12 +42,15 @@ const devConfig = {
         emitWarning: true,
       },
     }, {
-      test: /\.scss$/,
+      test: /\.(scss|css)$/,
       use: [
         'style-loader',
         'css-loader',
         'sass-loader', // TODO: extracttextplugin prod
       ],
+    }, {
+      test: /\.(svg|ttf|woff|woff2)$/,
+      loader: 'file-loader?name=./fonts/[name].[ext]',
     }],
   },
 };
