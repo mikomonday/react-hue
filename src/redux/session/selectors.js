@@ -1,7 +1,7 @@
-const getMsg = state => state.session.testMsg;
+const getUsername = state => state.session.username;
 const getTheme = state => state.session.theme;
 
 export default {
-  getMsg,
+  getUsername,
   getTheme,
 };

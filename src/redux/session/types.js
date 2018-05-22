@@ -1,3 +1,4 @@
 export default {
-  TEST_MSG: 'app/session/TEST_MSG',
+  SET_USERNAME: 'app/session/SET_USERNAME',
+  SET_THEME: 'app/session/SET_THEME',
 };

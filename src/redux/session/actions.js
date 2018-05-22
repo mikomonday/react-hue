@@ -1,12 +1,16 @@
 import types from './types';
 
-const testMsg = msg => ({
-  type: types.TEST_MSG,
-  payload: {
-    msg,
-  },
+const setUsername = username => ({
+  type: types.SET_THEME,
+  username,
+});
+
+const setTheme = theme => ({
+  type: types.SET_THEME,
+  theme,
 });
 
 export default {
-  testMsg,
+  setUsername,
+  setTheme,
 };
