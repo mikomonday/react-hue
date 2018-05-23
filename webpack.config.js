@@ -19,6 +19,7 @@ const devConfig = {
   ],
   entry: [
     'webpack-hot-middleware/client',
+    'babel-polyfill',
     path.join(__dirname, 'src', 'index.jsx'),
   ],
   output: {

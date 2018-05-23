@@ -1,6 +1,39 @@
 import types from './types';
 import constants from './constants';
 
+const bridgeReducer = (state = {
+  requesting: false,
+  error: null,
+  bridges: [],
+  activeBridge: '',
+}, action) => {
+  switch (action.type) {
+    case types.BRIDGE_INFO_REQUEST:
+      return {
+        ...state,
+        requesting: true,
+        error: null,
+      };
+
+    case types.BRIDGE_INFO_SUCCESS:
+      return {
+        ...state,
+        requesting: false,
+        bridges: action.bridges,
+      };
+
+    case types.BRIDGE_INFO_ERROR:
+      return {
+        requesting: false,
+        bridges: [],
+        error: action.error,
+      };
+
+    default:
+      return state;
+  }
+};
+
 const sessionReducer = (state = {
   username: '',
   theme: constants.themes.DEFAULT,
@@ -19,7 +52,10 @@ const sessionReducer = (state = {
       };
 
     default:
-      return state;
+      return {
+        ...state,
+        bridge: bridgeReducer(state.bridge, action),
+      };
   }
 };
 

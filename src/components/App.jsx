@@ -9,10 +9,12 @@ import {
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'typeface-rubik';
+import PropTypes from 'prop-types';
 
 // Redux
-import { sessionSelectors, sessionConstants } from '../redux/session';
+import { sessionSelectors, sessionConstants, sessionActions } from '../redux/session';
 import propTypes from '../redux/propTypes';
+
 
 // Components
 import Navigation from './Navigation/Navigation';
@@ -25,7 +27,9 @@ import './app.scss';
 import defaultTheme from '../utils/themes/defaultTheme';
 
 class App extends React.Component {
-  state = {};
+  componentDidMount() {
+    this.props.getBridgeInfo();
+  }
 
   createTheme = (theme) => {
     switch (theme) {
@@ -55,8 +59,13 @@ const mapStateToProps = state => ({
   theme: sessionSelectors.getTheme(state),
 });
 
+const mapDispatchToProps = dispatch => ({
+  getBridgeInfo: dispatch(sessionActions.getBridgeInfo()),
+});
+
 App.propTypes = {
   theme: propTypes.session.theme.isRequired,
+  getBridgeInfo: PropTypes.func.isRequired,
 };
 
-export default hot(module)(connect(mapStateToProps)(App));
+export default hot(module)(connect(mapStateToProps, mapDispatchToProps)(App));

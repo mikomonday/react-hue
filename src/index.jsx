@@ -6,7 +6,7 @@ import { loadState, saveState } from './utils/localStorage';
 import configureStore from './redux/store';
 
 // Redux
-import sessionSelectors from './redux/session';
+import { sessionSelectors } from './redux/session';
 
 // Components
 import App from './components/App';
@@ -17,7 +17,7 @@ const store = configureStore(persistedState);
 store.subscribe(throttle(() => {
   saveState({
     username: sessionSelectors.getUsername(store.getState()),
-  })
+  });
 }, 1000));
 
 ReactDOM.render(

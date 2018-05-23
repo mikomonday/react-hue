@@ -1,18 +1,22 @@
-/* eslint-disable no-underscore-dangle */
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+/* eslint-disable no-underscore-dangle, import/first */
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 
-// Reducers
-import session from './session/reducers';
+import rootReducer from './rootReducer';
+import rootSaga from './rootSaga';
 
-const rootReducer = combineReducers({
-  session,
-});
+const sagaMiddleware = createSagaMiddleware();
 
-const configureStore = (initialState = {}) => createStore(
-  rootReducer,
-  initialState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  applyMiddleware(),
-);
+const configureStore = (initialState = {}) => {
+  const store = createStore(
+    rootReducer,
+    initialState,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    applyMiddleware(sagaMiddleware),
+  );
+  sagaMiddleware.run(rootSaga);
+
+  return store;
+};
 
 export default configureStore;
