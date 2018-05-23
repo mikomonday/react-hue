@@ -31,7 +31,7 @@ class RoomCarousel extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  rooms: groupsSelectors.getRooms(state),
+  rooms: groupsSelectors.getGroups(state),
 });
 
 export default connect(mapStateToProps)(RoomCarousel);

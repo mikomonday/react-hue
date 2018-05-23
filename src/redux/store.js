@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle, import/first */
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
 import rootReducer from './rootReducer';
@@ -11,8 +11,10 @@ const configureStore = (initialState = {}) => {
   const store = createStore(
     rootReducer,
     initialState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware(sagaMiddleware),
+    compose(
+      applyMiddleware(sagaMiddleware),
+      typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f, // Browser Extension
+    ),
   );
   sagaMiddleware.run(rootSaga);
 

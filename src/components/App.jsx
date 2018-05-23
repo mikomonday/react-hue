@@ -60,7 +60,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getBridgeInfo: dispatch(sessionActions.getBridgeInfo()),
+  getBridgeInfo: () => dispatch(sessionActions.getBridgeInfo()),
 });
 
 App.propTypes = {
