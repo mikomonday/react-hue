@@ -22,10 +22,21 @@ if (env === 'development') {
     stats: { colors: true },
   }));
   app.use(webpackHotMiddleware(compiler));
-}
 
-// Serve index.html
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+  // Fallback when no previous route was matched
+  app.use('*', (req, res) => {
+    const filename = path.join(compiler.outputPath, 'index.html');
+    compiler.outputFileSystem.readFile(filename, (err, result) => {
+      res.set('content-type', 'text/html');
+      res.send(result);
+      res.end();
+    });
+  });
+} else {
+  app.get('*', (request, response) => {
+    response.sendFile(path.resolve(__dirname, 'src', 'index.html'));
+  });
+}
 
 // Serve files on port
 app.listen(port, () => console.log(`React-Hue launched on port ${port}`));

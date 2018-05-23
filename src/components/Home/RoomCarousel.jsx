@@ -23,9 +23,7 @@ class RoomCarousel extends React.Component {
 
   render() {
     return (
-      <AutoRotatingCarousel>
-        {}
-      </AutoRotatingCarousel>
+      <div>Hello</div>
     );
   }
 }

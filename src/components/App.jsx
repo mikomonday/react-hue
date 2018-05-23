@@ -4,12 +4,15 @@ import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
 import {
   BrowserRouter as Router,
+  Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'typeface-rubik';
 import PropTypes from 'prop-types';
+import v4 from 'uuid/v4';
 
 // Redux
 import { sessionSelectors, sessionConstants, sessionActions } from '../redux/session';
@@ -18,6 +21,7 @@ import propTypes from '../redux/propTypes';
 
 // Components
 import Navigation from './Navigation/Navigation';
+import ConnectToBridge from './ConnectToBridge/ConnectToBridge';
 import Home from './Home/Home';
 
 // Styles
@@ -25,6 +29,17 @@ import './app.scss';
 
 // Themes
 import defaultTheme from '../utils/themes/defaultTheme';
+
+const PrivateRoute = ({ isAuth = false, component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props => (isAuth ? (
+      <Component {...props} />
+    ) : (
+      <Redirect to="/connect" />
+    ))}
+  />
+);
 
 class App extends React.Component {
   componentDidMount() {
@@ -47,7 +62,15 @@ class App extends React.Component {
           <React.Fragment>
             <CssBaseline />
             <Navigation />
-            <Route exact path="/" component={Home} />
+            {(true) ? (
+              [
+                <Route key={v4()} exact path="/" component={Home} />,
+              ]
+            ) : (
+              <Redirect to="/connect" />
+            )}
+            
+            <Route exact path="/connect" component={ConnectToBridge} />
           </React.Fragment>
         </MuiThemeProvider>
       </Router>

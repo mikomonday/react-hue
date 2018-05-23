@@ -17,6 +17,7 @@ const store = configureStore(persistedState);
 store.subscribe(throttle(() => {
   saveState({
     username: sessionSelectors.getUsername(store.getState()),
+    activeBridge: sessionSelectors.getActiveBridge(store.getState()),
   });
 }, 1000));
 

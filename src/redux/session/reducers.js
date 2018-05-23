@@ -54,7 +54,7 @@ const sessionReducer = (state = {
     default:
       return {
         ...state,
-        bridge: bridgeReducer(state.bridge, action),
+        bridges: bridgeReducer(state.bridge, action),
       };
   }
 };
